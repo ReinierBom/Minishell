@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/08/15 16:54:32 by rbom          ########   odam.nl         */
+/*   Updated: 2024/08/15 18:17:03 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@ bool	ft_strcmp(char *str_1, char *str_2)
 		if (str_1[i] != str_2[i])
 			return (false);
 		if (str_1[i] == '\0')
-			break ;
+			return (true);
 		i++;
 	}
-	return (true);
 }
 
 bool	check_builtin(t_data *data)
@@ -47,7 +46,7 @@ void	execute_builtin(t_data *data)
 	size_t	i;
 
 	if (ft_strcmp(data->input_split[0], "exit"))
-		data->exit = false;
+		data->exit_loop = false;
 	else if (ft_strcmp(data->input_split[0], "echo"))
 	{
 		i = 1;

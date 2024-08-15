@@ -1,36 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell_main.c                                   :+:    :+:            */
+/*   minishell_free.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/08/15 18:16:34 by rbom          ########   odam.nl         */
+/*   Updated: 2024/08/15 18:17:11 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+void	set_data(t_data *data)
 {
-	t_data	data;
+	data->exit_loop = true;
+	data->input_raw = NULL;
+	data->input_split = NULL;
+}
 
-	set_data(&data);
-	while (data.exit_loop == true)
+void	free_data(t_data *data)
+{
+	size_t	i;
+
+	if (data->input_raw != NULL)
+		free(data->input_raw);
+	if (data->input_split != NULL)
 	{
-		data.input_raw = readline("MINISHELL> ");
-		if (empty_line(&data) == false)
+		i = 0;
+		while (data->input_split[i] != NULL)
 		{
-			add_history(data.input_raw);
-			split_input(&data);
-			if (check_builtin(&data))
-				execute_builtin(&data);
-			else
-				execute_other(&data);
+			free(data->input_split[i]);
+			i++;
 		}
-		free_data(&data);
+		free(data->input_split);
 	}
-	rl_clear_history();
-	return (0);
+}
+
+void	exit_data(t_data *data, size_t exit_code)
+{
+	free_data(data);
+	exit(exit_code);
 }

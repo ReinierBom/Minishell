@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/08/02 17:17:57 by rbom          ########   odam.nl         */
+/*   Updated: 2024/08/15 18:16:43 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,5 @@ bool	empty_line(t_data *data)
 			return (false);
 		i++;
 	}
-	free(data->input_raw);
 	return (true);
 }
