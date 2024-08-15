@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/08/15 18:55:06 by rbom          ########   odam.nl         */
+/*   Updated: 2024/08/15 19:04:39 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,24 @@ bool	ft_strcmp(char *str_1, char *str_2)
 	}
 }
 
-bool	check_builtin(t_data *data)
+void	execute_input(t_data *data)
 {
-	if (ft_strcmp(data->input_split[0], "echo")
-		|| ft_strcmp(data->input_split[0], "cd")
-		|| ft_strcmp(data->input_split[0], "pwd")
-		|| ft_strcmp(data->input_split[0], "export")
-		|| ft_strcmp(data->input_split[0], "unset")
-		|| ft_strcmp(data->input_split[0], "env")
-		|| ft_strcmp(data->input_split[0], "exit"))
-		return (true);
-	else
-		return (false);
-}
-
-void	execute_builtin(t_data *data)
-{
-	if (ft_strcmp(data->input_split[0], "exit"))
-		exit_data(data, 0);
-	else if (ft_strcmp(data->input_split[0], "echo"))
+	if (ft_strcmp(data->input_split[0], "echo"))
 		echo_test(data);
+	else if (ft_strcmp(data->input_split[0], "cd"))
+		printf("%s: command not found (CD)\n", data->input_raw);
+	else if (ft_strcmp(data->input_split[0], "pwd"))
+		printf("%s: command not found (PWD)\n", data->input_raw);
+	else if (ft_strcmp(data->input_split[0], "export"))
+		printf("%s: command not found (EXPORT)\n", data->input_raw);
+	else if (ft_strcmp(data->input_split[0], "unset"))
+		printf("%s: command not found (UNSET)\n", data->input_raw);
+	else if (ft_strcmp(data->input_split[0], "env"))
+		printf("%s: command not found (ENV)\n", data->input_raw);
+	else if (ft_strcmp(data->input_split[0], "exit"))
+		exit_data(data, 0);
 	else
-		printf("%s: command not found (BUILTIN)\n", data->input_raw);
+		printf("%s: command not found (OTHER)\n", data->input_raw);
 }
 
 void	echo_test(t_data *data)
@@ -62,9 +58,4 @@ void	echo_test(t_data *data)
 		i++;
 	}
 	printf("\n");
-}
-
-void	execute_other(t_data *data)
-{
-	printf("%s: command not found (OTHER)\n", data->input_raw);
 }

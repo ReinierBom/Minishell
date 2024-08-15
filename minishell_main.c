@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/08/15 18:50:26 by rbom          ########   odam.nl         */
+/*   Updated: 2024/08/15 19:04:10 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ int	main(void)
 		{
 			add_history(data.input_raw);
 			split_input(&data);
-			if (check_builtin(&data))
-				execute_builtin(&data);
-			else
-				execute_other(&data);
+			execute_input(&data);
 		}
 		free_data(&data);
 	}
