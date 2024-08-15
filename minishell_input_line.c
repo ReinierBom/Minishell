@@ -1,36 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell_main.c                                   :+:    :+:            */
+/*   minishell_input_line.c                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/08/15 14:31:19 by rbom          ########   odam.nl         */
+/*   Updated: 2024/08/02 17:17:57 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+bool	space(char c)
 {
-	t_data	data;
+	if (c == ' '
+		|| c == '\f'
+		|| c == '\n'
+		|| c == '\r'
+		|| c == '\t'
+		|| c == '\v')
+		return (true);
+	else
+		return (false);
+}
 
-	data.exit = true;
-	while (data.exit == true)
+bool	empty_line(t_data *data)
+{
+	size_t	i;
+
+	if (data->input_raw == NULL)
+		return (true);
+	i = 0;
+	while (data->input_raw[i] != '\0')
 	{
-		data.input_raw = readline("MINISHELL> ");
-		if (empty_line(&data) == false)
-		{
-			add_history(data.input_raw);
-			split_input(&data);
-			if (check_builtin(&data))
-				execute_builtin(&data);
-			else
-				execute_other(&data);
-		}
+		if (space(data->input_raw[i]) == false)
+			return (false);
+		i++;
 	}
-	rl_clear_history();
-	// free_all(&data);
-	return (0);
+	free(data->input_raw);
+	return (true);
 }
