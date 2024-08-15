@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:37:56 by rbom          #+#    #+#                 */
-/*   Updated: 2024/08/15 16:53:20 by rbom          ########   odam.nl         */
+/*   Updated: 2024/08/15 17:42:01 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char	*find_word(t_data *data, size_t start, size_t len)
 	char	*word;
 	size_t	i;
 	
-	word = (char *)malloc(len + 1 * sizeof(char));
+	word = (char *)malloc((len + 1) * sizeof(char));
 	if (word == NULL)
 		exit(2);													/* ERROR */
 	i = 0;
@@ -73,7 +73,7 @@ void	split_input(t_data *data)
 	size_t	len;
 
 	count = counter(data);
-	data->input_split = (char **)malloc(count + 1 * sizeof(char *));
+	data->input_split = (char **)malloc((count + 1) * sizeof(char *));
 	if (data->input_split == NULL)
 		exit(1);													/* ERROR */
 	word = 0;
