@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/08/15 18:16:34 by rbom          ########   odam.nl         */
+/*   Updated: 2024/08/15 18:40:09 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	main(void)
 {
 	t_data	data;
 
-	set_data(&data);
+	null_data(&data);
+	data.exit_loop = true;
 	while (data.exit_loop == true)
 	{
 		data.input_raw = readline("MINISHELL> ");
@@ -31,6 +32,7 @@ int	main(void)
 		}
 		free_data(&data);
 	}
-	rl_clear_history();
-	return (0);
+	// rl_clear_history();
+	// return (0);
+	exit_data(&data, 0);
 }

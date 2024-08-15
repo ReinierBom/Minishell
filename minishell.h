@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 17:10:47 by rbom          #+#    #+#                 */
-/*   Updated: 2024/08/15 18:16:24 by rbom          ########   odam.nl         */
+/*   Updated: 2024/08/15 18:40:20 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	execute_builtin(t_data *data);
 void	execute_other(t_data *data);
 
 /* minishell_free.c */
-void	set_data(t_data *data);
+void	null_data(t_data *data);
 void	free_data(t_data *data);
 void	exit_data(t_data *data, size_t exit_code);
 
