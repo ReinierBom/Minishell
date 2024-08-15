@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/08/15 18:17:03 by rbom          ########   odam.nl         */
+/*   Updated: 2024/08/15 18:55:06 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,25 @@ bool	check_builtin(t_data *data)
 
 void	execute_builtin(t_data *data)
 {
-	size_t	i;
-
 	if (ft_strcmp(data->input_split[0], "exit"))
-		data->exit_loop = false;
+		exit_data(data, 0);
 	else if (ft_strcmp(data->input_split[0], "echo"))
-	{
-		i = 1;
-		while (data->input_split[i] != NULL)
-		{
-			printf("%s ", data->input_split[i]);
-			i++;
-		}
-		printf("\n");
-	}
+		echo_test(data);
 	else
 		printf("%s: command not found (BUILTIN)\n", data->input_raw);
+}
+
+void	echo_test(t_data *data)
+{
+	size_t	i;
+
+	i = 1;
+	while (data->input_split[i] != NULL)
+	{
+		printf("%s ", data->input_split[i]);
+		i++;
+	}
+	printf("\n");
 }
 
 void	execute_other(t_data *data)
