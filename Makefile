@@ -6,7 +6,7 @@
 #    By: rbom <rbom@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/11/21 16:58:14 by rbom          #+#    #+#                  #
-#    Updated: 2024/08/15 17:52:02 by rbom          ########   odam.nl          #
+#    Updated: 2024/08/30 16:20:28 by rbom          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ RLFLAG			=	-lreadline
 SRC 			=	minishell_main.c		\
 					minishell_input_line.c	\
 					minishell_input_split.c	\
+					minishell_signal.c		\
 					minishell_builtin.c		\
 					minishell_free.c
 			

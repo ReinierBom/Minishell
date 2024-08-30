@@ -6,16 +6,19 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/08/15 19:04:10 by rbom          ########   odam.nl         */
+/*   Updated: 2024/08/30 18:49:09 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	g_signal;
+
 int	main(void)
 {
 	t_data	data;
 
+	set_sigaction(&data);
 	while (true)
 	{
 		null_data(&data);
@@ -23,7 +26,7 @@ int	main(void)
 		if (empty_line(&data) == false)
 		{
 			add_history(data.input_raw);
-			split_input(&data);
+			// split_input(&data);
 			execute_input(&data);
 		}
 		free_data(&data);

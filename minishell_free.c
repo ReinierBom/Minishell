@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/08/15 18:50:17 by rbom          ########   odam.nl         */
+/*   Updated: 2024/08/30 20:05:50 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void	null_data(t_data *data)
 {
+	g_signal = 0;
 	data->input_raw = NULL;
-	data->input_split = NULL;
+	// data->input_split = NULL;
 }
 
 void	free_data(t_data *data)
@@ -24,16 +25,16 @@ void	free_data(t_data *data)
 
 	if (data->input_raw != NULL)
 		free(data->input_raw);
-	if (data->input_split != NULL)
-	{
-		i = 0;
-		while (data->input_split[i] != NULL)
-		{
-			free(data->input_split[i]);
-			i++;
-		}
-		free(data->input_split);
-	}
+	// if (data->input_split != NULL)
+	// {
+	// 	i = 0;
+	// 	while (data->input_split[i] != NULL)
+	// 	{
+	// 		free(data->input_split[i]);
+	// 		i++;
+	// 	}
+	// 	free(data->input_split);
+	// }
 }
 
 void	exit_data(t_data *data, size_t exit_code)
