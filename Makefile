@@ -6,7 +6,7 @@
 #    By: rbom <rbom@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/11/21 16:58:14 by rbom          #+#    #+#                  #
-#    Updated: 2024/08/30 16:20:28 by rbom          ########   odam.nl          #
+#    Updated: 2024/09/08 15:24:53 by rbom          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,9 @@ CFLAGS			=	-Wall -Wextra -Werror
 RLFLAG			=	-lreadline
 
 SRC 			=	minishell_main.c		\
-					minishell_input_line.c	\
-					minishell_input_split.c	\
+					minishell_input.c		\
 					minishell_signal.c		\
+					minishell_split.c		\
 					minishell_builtin.c		\
 					minishell_free.c
 			

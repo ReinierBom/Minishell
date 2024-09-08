@@ -1,48 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell_free.c                                   :+:    :+:            */
+/*   minishell_input.c                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/09/08 14:59:01 by rbom          ########   odam.nl         */
+/*   Updated: 2024/09/08 14:58:42 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_cmdl(t_cmdl *cmdl, char **envp)
+bool	space(char c)
 {
-	g_signal = 0;
-	// signal_ia_mode(cmdl);
-	cmdl->env = envp;
-	cmdl->input = NULL;
-	cmdl->n = 0;
-	cmdl->cmd = NULL;
+	if (c == ' '
+		|| c == '\f'
+		|| c == '\n'
+		|| c == '\r'
+		|| c == '\t'
+		|| c == '\v')
+		return (true);
+	else
+		return (false);
 }
 
-// void	free_cmdl(t_cmdl *cmdl)
-// {
-// 	size_t	i;
+bool	empty_line(t_cmdl *cmdl)
+{
+	size_t	i;
 
-// 	if (cmdl->input != NULL)
-// 		free(cmdl->input);
-// 	if (cmdl->cmd != NULL)
-// 	{
-// 		i = 0;
-// 		while (i < cmdl->n)
-// 		{
-// 			if (cmdl->cmd[i] != NULL)
-// 				free(cmdl->cmd[i]);
-// 		}
-// 		free(cmdl->cmd);
-// 	}
-// }
-
-// void	exit_cmdl(t_cmdl *cmdl, size_t exit_code)
-// {
-// 	free_cmdl(cmdl);
-// 	rl_clear_history();
-// 	exit(exit_code);
-// }
+	// if (cmdl->input == NULL)
+	// 	exit_cmdl(cmdl, 0);
+	i = 0;
+	while (cmdl->input[i] != '\0')
+	{
+		if (space(cmdl->input[i]) == false)
+			return (false);
+		i++;
+	}
+	return (true);
+}
