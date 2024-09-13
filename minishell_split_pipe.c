@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:37:56 by rbom          #+#    #+#                 */
-/*   Updated: 2024/09/12 15:28:21 by rbom          ########   odam.nl         */
+/*   Updated: 2024/09/13 16:09:04 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	split_pipe(t_cmdl *cmdl)
 	{
 		p = 0;
 		start = 0;
-		while (p < cmdl->cmd->n)
+		while (p < cmdl->cmd[cmd].n)
 		{
 			len = len_pipe(cmdl, cmd, p, start);
 			copy_pipe(cmdl, cmd, p, start);

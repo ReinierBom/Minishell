@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/09/13 14:50:04 by rbom          ########   odam.nl         */
+/*   Updated: 2024/09/13 15:53:10 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,34 +18,42 @@ void	test_parsing(t_cmdl *cmdl)
 {
 	size_t	i;
 	size_t	j;
-	size_t	k;
+	// size_t	k;
 
-	printf("INPUT:\t\t\t\t%s\n", cmdl->input);
 	remove_par(cmdl);
-	printf("NO_PAR:\t\t\t\t%s\n", cmdl->no_par);
 	count_and_or(cmdl);
 	split_and_or(cmdl);
+	count_pipe(cmdl);
+	split_pipe(cmdl);
+
+
+
+	printf("\nINPUT:\t\t\t\t%s\n", cmdl->input);
+	printf("\nNO_PAR:\t\t\t\t%s\n", cmdl->no_par);
 	i = 0;
 	while (i < cmdl->n)
 	{
-		count_pipe(cmdl);
-		printf("\tCMD %li:\t\t\t%s\n", i, cmdl->cmd[i].raw);
-		split_pipe(cmdl);
+		printf("\n\tCMD %li:\t\t\t%s\n", i, cmdl->cmd[i].raw);
 		j = 0;
 		while (j < cmdl->cmd[i].n)
 		{
-			printf("\t\tPIPE %li:\t\t%s\n", j, cmdl->cmd[i].p[j].raw);
-			k = 0;
-			while (cmdl->cmd[i].p[j].raw[k] != '\0')
-			{
-				printf("\t\tPIPE %li:\t\t%c\t%i\n", j, cmdl->cmd[i].p[j].raw[k], cmdl->cmd[i].p[j].raw[k]);
-				k++;
-			}
+			printf("\n\t\tPIPE %li:\t\t%s\n", j, cmdl->cmd[i].p[j].raw);
+			// k = 0;
+			// while (cmdl->cmd[i].p[j].raw[k] != '\0')
+			// {
+			// 	printf("\t\t\t\t\t\t%c\t%i\n", cmdl->cmd[i].p[j].raw[k], cmdl->cmd[i].p[j].raw[k]);
+			// 	k++;
+			// }
 			j++;
 		}
 		i++;
 	}
+	printf("\n");
 }
+
+
+
+
 
 void	test_print_env(t_cmdl *cmdl)
 {
@@ -98,10 +106,8 @@ int	main(int argc, char **argv, char **envp)
 		add_history(cmdl.input);		
 		if (empty_line(&cmdl) == false)
 		{
-			// test_parsing(&cmdl);
-			test_env(&cmdl);
-
-			
+			test_parsing(&cmdl);
+			// test_env(&cmdl);			
 		}
 		free_cmdl(&cmdl);
 	}
