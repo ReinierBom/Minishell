@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/09/08 14:58:24 by rbom          ########   odam.nl         */
+/*   Updated: 2024/09/13 14:34:58 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,34 +51,46 @@
 // }
 
 
-// // void	handle_sigint_ia(int sig)
-// // {
-// // 	g_signal = sig;
-// // 	printf("\n^C\n");
-// // 	rl_replace_line("", 0);
-// // 	rl_on_new_line();
-// // 	rl_redisplay();
-// // }
 
-// // void	handle_sigquit_ia(int sig)
-// // {
-// // 	g_signal = sig;
-// // 	return;
-// // }
 
-// // void	handle_sigint_nia(int sig)
-// // {
-// // 	g_signal = sig;
-// // 	printf("^C\n");
-// // 	kill(0, SIGINT);
-// // }
 
-// // void	handle_sigquit_nia(int sig)
-// // {
-// // 	g_signal = sig;
-// // 	printf("^\Quit (core dumped)\n");
-// // 	kill(0, SIGQUIT);
-// // }
+
+
+
+
+// void	handle_sigint_ia(int sig)
+// {
+// 	g_signal = sig;
+// 	printf("\n^C\n");
+// 	rl_replace_line("", 0);
+// 	rl_on_new_line();
+// 	rl_redisplay();
+// }
+
+// void	handle_sigquit_ia(int sig)
+// {
+// 	g_signal = sig;
+// 	return;
+// }
+
+// void	handle_sigint_nia(int sig)
+// {
+// 	g_signal = sig;
+// 	printf("^C\n");
+// 	kill(0, SIGINT);
+// }
+
+// void	handle_sigquit_nia(int sig)
+// {
+// 	g_signal = sig;
+// 	printf("^\\Quit (core dumped)\n");
+// 	kill(0, SIGQUIT);
+// }
+
+
+
+
+
 
 // void	signal_ia_mode(t_cmdl *cmdl)
 // {
@@ -86,6 +98,8 @@
 // 	sigemptyset(&cmdl->sa_int.sa_mask);
 // 	cmdl->sa_int.sa_flags = SA_RESTART;
 // 	sigaction(SIGINT, &cmdl->sa_int, NULL);
+
+
 // 	cmdl->sa_quit.sa_handler = &handle_sigquit_ia;
 // 	sigemptyset(&cmdl->sa_quit.sa_mask);
 // 	cmdl->sa_quit.sa_flags = SA_RESTART;
@@ -98,6 +112,8 @@
 // 	sigemptyset(&cmdl->sa_int.sa_mask);
 // 	cmdl->sa_int.sa_flags = SA_RESTART;
 // 	sigaction(SIGINT, &cmdl->sa_int, NULL);
+
+
 // 	cmdl->sa_quit.sa_handler = &handle_sigquit_nia;
 // 	sigemptyset(&cmdl->sa_quit.sa_mask);
 // 	cmdl->sa_quit.sa_flags = SA_RESTART;

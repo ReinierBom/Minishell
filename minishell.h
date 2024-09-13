@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 17:10:47 by rbom          #+#    #+#                 */
-/*   Updated: 2024/09/08 14:55:27 by rbom          ########   odam.nl         */
+/*   Updated: 2024/09/13 14:21:17 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,29 @@
 
 extern int	g_signal;
 
+typedef struct s_redirect
+{
+	char		*cmd;
+	size_t		n_arg;
+	char		**arg;
+	size_t		n_red;
+	size_t		*red;
+	char		**red_arg;
+}	t_redirect;
+
+typedef struct s_pipe
+{
+	char		*raw;
+	size_t		n;
+	t_redirect	*r;
+}	t_pipe;
+
 typedef struct s_cmd
 {
 	size_t	and_or;
-	size_t	exit_status;
 	char	*raw;
+	size_t	n;
+	t_pipe	*p;
 }	t_cmd;
 
 typedef struct s_cmdl
@@ -37,32 +55,44 @@ typedef struct s_cmdl
 	struct sigaction	sa_quit;
 	char				**env;
 	char				*input;
+	char				*no_par;
 	size_t				n;
 	t_cmd				*cmd;
 }	t_cmdl;
 
-/* minishell_signal.c */
-// void	null_sigaction(t_data *data);
-void	handle_sigint_ia(int sig);
-void	handle_sigint_nia(int sig);
-void	handle_sigquit_ia(int sig);
-void	handle_sigquit_nia(int sig);
-// void	sa_ia_mode(t_data *data);
-// void	sa_nia_mode(t_data *data);
-
-/* minishell_input.c */
 bool	space(char c);
-// bool	empty_line(t_data *data);
+bool	empty_line(t_cmdl *cmdl);
 
-/* minishell_input_split.c */
-// void	split_input(t_data *data);
+size_t	check_quote(size_t quote, char c);
+size_t	count_par(t_cmdl *cmdl);
+void	remove_par(t_cmdl *cmdl);
 
-/* minishell_builtin.c */
-bool	ft_strcmp(char *str_1, char *str_2);
-// void	execute_input(t_data *data);
-// void	echo_test(t_data *data);
+size_t	check_and_or(char c1, char c2);
+void	count_and_or(t_cmdl *cmdl);
+size_t	len_and_or(t_cmdl *cmdl, size_t cmd, size_t start);
+void	copy_and_or(t_cmdl *cmdl, size_t cmd, size_t start);
+void	split_and_or(t_cmdl *cmdl);
 
-/* minishell_free.c */
-void	init_cmdl(t_cmdl *cmdl, char **envp);
+void	count_pipe(t_cmdl *cmdl);
+size_t	len_pipe(t_cmdl *cmdl, size_t cmd, size_t p, size_t start);
+void	copy_pipe(t_cmdl *cmdl, size_t cmd, size_t p, size_t start);
+void	split_pipe(t_cmdl *cmdl);
+
+void	copy_ev(t_cmdl *cmdl, char **envp);
+char	*return_ev(t_cmdl *cmdl, char *str);
+void	replace_ev_str(t_cmdl *cmdl, char *str);
+void	replace_ev_arr(t_cmdl *cmdl, char **arr, size_t n);
+
+void	add_ev(t_cmdl *cmdl, char *str);
+bool	check_ev(t_cmdl *cmdl, char *str, size_t i);
+void	replace_ev(t_cmdl *cmdl, char *str);
+void	add_replace_ev(t_cmdl *cmdl, char *str);
+void	remove_ev(t_cmdl *cmdl, char *str);
+
+void	init_cmdl(t_cmdl *cmdl);
+void	free_cmdl(t_cmdl *cmdl);
+void	exit_cmdl(t_cmdl *cmdl, size_t exit_code);
+
+
 
 #endif

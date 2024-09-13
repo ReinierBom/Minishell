@@ -29,8 +29,8 @@ bool	empty_line(t_cmdl *cmdl)
 {
 	size_t	i;
 
-	// if (cmdl->input == NULL)
-	// 	exit_cmdl(cmdl, 0);
+	if (cmdl->input == NULL)
+		exit_cmdl(cmdl, 0);
 	i = 0;
 	while (cmdl->input[i] != '\0')
 	{

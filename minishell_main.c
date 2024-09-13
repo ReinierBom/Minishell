@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/09/08 15:11:41 by rbom          ########   odam.nl         */
+/*   Updated: 2024/09/13 14:50:04 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,59 +14,95 @@
 
 int	g_signal;
 
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	t_cmdl	cmdl;
-
-// 	while (argc != 0 && argv[0] != NULL)
-// 	{
-// 		null_cmdl(&cmdl, envp);
-// 		cmdl.input = readline("MINISHELL> ");
-// 		add_history(cmdl.input);
-// 		if (empty_line(&cmdl) == false)
-// 		{
-// 			split_cmdl(&cmdl);
-// 			// execute_input(&cmdl);
-// 		}
-// 		free_cmdl(&cmdl);
-// 	}
-// }
-
-
-
-char	*env_var(t_cmdl *cmdl, char *str)
+void	test_parsing(t_cmdl *cmdl)
 {
-	int	i;
-	int	j;
+	size_t	i;
+	size_t	j;
+	size_t	k;
 
-	if (str[0] != '$')
-		return (str);		
+	printf("INPUT:\t\t\t\t%s\n", cmdl->input);
+	remove_par(cmdl);
+	printf("NO_PAR:\t\t\t\t%s\n", cmdl->no_par);
+	count_and_or(cmdl);
+	split_and_or(cmdl);
 	i = 0;
-	while (cmdl->env[i] != NULL)
+	while (i < cmdl->n)
 	{
+		count_pipe(cmdl);
+		printf("\tCMD %li:\t\t\t%s\n", i, cmdl->cmd[i].raw);
+		split_pipe(cmdl);
 		j = 0;
-		while (cmdl->env[i][j] != '\0')
+		while (j < cmdl->cmd[i].n)
 		{
-			if (cmdl->env[i][j] == str[j + 1])
-				j++;
-			else if (cmdl->env[i][j] == '=')
-				return (cmdl->env[i] + j + 1);
-			else
-				break ;
+			printf("\t\tPIPE %li:\t\t%s\n", j, cmdl->cmd[i].p[j].raw);
+			k = 0;
+			while (cmdl->cmd[i].p[j].raw[k] != '\0')
+			{
+				printf("\t\tPIPE %li:\t\t%c\t%i\n", j, cmdl->cmd[i].p[j].raw[k], cmdl->cmd[i].p[j].raw[k]);
+				k++;
+			}
+			j++;
 		}
 		i++;
 	}
-	return (NULL);
 }
+
+void	test_print_env(t_cmdl *cmdl)
+{
+	size_t	i;
+
+	i = 0;
+	while (cmdl->env[i] != NULL)
+	{
+		printf("%s\n", cmdl->env[i]);
+		i++;
+	}
+}
+
+void	test_env(t_cmdl *cmdl)
+{
+	printf("\nCHECK\t%s\n\n", return_ev(cmdl, "$?"));
+	test_print_env(cmdl);
+	printf("\nCHECK\t%s\nADD\n\n", return_ev(cmdl, "$?"));
+	add_ev(cmdl, cmdl->input);
+	test_print_env(cmdl);
+	printf("\nCHECK\t%s\nREPLACE\n\n", return_ev(cmdl, "$?"));
+	replace_ev(cmdl, "?=1");
+	test_print_env(cmdl);
+	printf("\nCHECK\t%s\nADD/REPLACE\n\n", return_ev(cmdl, "$?"));
+	add_replace_ev(cmdl, "?=2");
+	test_print_env(cmdl);
+	printf("\nCHECK\t%s\nREMOVE\n\n", return_ev(cmdl, "$?"));
+	remove_ev(cmdl, "?");
+	test_print_env(cmdl);
+	printf("\nCHECK\t%s\n\n", return_ev(cmdl, "$?"));
+}
+
+
+
+
+
+
+
+
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_cmdl	cmdl;
 
+	copy_ev(&cmdl, envp);
 	while (argc != 0 && argv[0] != NULL)
 	{
-		init_cmdl(&cmdl, envp);
+		init_cmdl(&cmdl);
 		cmdl.input = readline("MINISHELL> ");
-		printf("%s\n", env_var(&cmdl, cmdl.input));
+		add_history(cmdl.input);		
+		if (empty_line(&cmdl) == false)
+		{
+			// test_parsing(&cmdl);
+			test_env(&cmdl);
+
+			
+		}
+		free_cmdl(&cmdl);
 	}
 }

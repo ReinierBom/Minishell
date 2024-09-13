@@ -6,7 +6,7 @@
 #    By: rbom <rbom@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/11/21 16:58:14 by rbom          #+#    #+#                  #
-#    Updated: 2024/09/08 15:24:53 by rbom          ########   odam.nl          #
+#    Updated: 2024/09/12 19:41:58 by rbom          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,11 +16,15 @@ CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror
 RLFLAG			=	-lreadline
 
-SRC 			=	minishell_main.c		\
-					minishell_input.c		\
-					minishell_signal.c		\
-					minishell_split.c		\
-					minishell_builtin.c		\
+SRC 			=	minishell_main.c			\
+					minishell_input.c			\
+					minishell_signal.c			\
+					minishell_split_par.c		\
+					minishell_split_and_or.c	\
+					minishell_split_pipe.c		\
+					minishell_env_substitute.c	\
+					minishell_env_edit.c		\
+					minishell_builtin.c			\
 					minishell_free.c
 			
 OBJ				=	$(SRC:%.c=$(OBJDIR)/%.o)
