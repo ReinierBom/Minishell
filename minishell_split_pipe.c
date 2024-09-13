@@ -6,12 +6,13 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:37:56 by rbom          #+#    #+#                 */
-/*   Updated: 2024/09/13 16:09:04 by rbom          ########   odam.nl         */
+/*   Updated: 2024/09/13 18:44:16 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* COUNTS PIPES */
 void	count_pipe(t_cmdl *cmdl)
 {
 	size_t	i;
@@ -38,6 +39,7 @@ void	count_pipe(t_cmdl *cmdl)
 	}
 }
 
+/* LENGTH PIPE */
 size_t	len_pipe(t_cmdl *cmdl, size_t cmd, size_t p, size_t start)
 {
 	size_t	len;
@@ -56,6 +58,7 @@ size_t	len_pipe(t_cmdl *cmdl, size_t cmd, size_t p, size_t start)
 	return (len);
 }
 
+/* COPIES PIPE */
 void	copy_pipe(t_cmdl *cmdl, size_t cmd, size_t p, size_t start)
 {
 	size_t	len;
@@ -72,6 +75,7 @@ void	copy_pipe(t_cmdl *cmdl, size_t cmd, size_t p, size_t start)
 	cmdl->cmd[cmd].p[p].raw[len] = '\0';
 }
 
+/* SPLITS COMMANDS INTO PIPES */
 void	split_pipe(t_cmdl *cmdl)
 {
 	size_t	cmd;

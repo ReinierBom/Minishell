@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell_split_2.c                                :+:    :+:            */
+/*   minishell_split_and_or.c                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:37:56 by rbom          #+#    #+#                 */
-/*   Updated: 2024/09/12 14:43:18 by rbom          ########   odam.nl         */
+/*   Updated: 2024/09/13 19:01:51 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	check_and_or(char c1, char c2)
+/* CHECKS IF && OR || */
+size_t	check_and_or(char *str, size_t i)
 {
-	if (c1 == '&' && c2 == '&')
+	if (str[i] == '&' && str[i + 1] == '&')
 		return (1);
-	else if (c1 == '|' && c2 == '|')
+	else if (str[i] == '|' && str[i + 1] == '|')
 		return (2);
 	else
 		return (0);
 }
 
+/* COUNTS COMMANDS */
 void	count_and_or(t_cmdl *cmdl)
 {
 	size_t	i;
@@ -34,7 +36,7 @@ void	count_and_or(t_cmdl *cmdl)
 	while (quote > 0 || cmdl->no_par[i] != '\0')
 	{
 		quote = check_quote(quote, cmdl->no_par[i]);
-		and_or = check_and_or(cmdl->no_par[i], cmdl->no_par[i + 1]);
+		and_or = check_and_or(cmdl->no_par, i);
 		if (quote == 0 && and_or > 0)
 		{
 			cmdl->n++;
@@ -47,6 +49,7 @@ void	count_and_or(t_cmdl *cmdl)
 		exit_cmdl(cmdl, 1);
 }
 
+/* LENGTH COMMAND */
 size_t	len_and_or(t_cmdl *cmdl, size_t cmd, size_t start)
 {
 	size_t	len;
@@ -55,19 +58,20 @@ size_t	len_and_or(t_cmdl *cmdl, size_t cmd, size_t start)
 
 	len = 0;
 	quote = check_quote(0, cmdl->no_par[start]);
-	and_or = check_and_or(cmdl->no_par[start], cmdl->no_par[start + 1]);
+	and_or = check_and_or(cmdl->no_par, start);
 	while ((quote > 0 || (and_or == 0 && cmdl->no_par[start + len] != '\0')))
 	{
 		len++;
 		quote = check_quote(quote, cmdl->no_par[start + len]);
-		and_or = check_and_or(cmdl->no_par[start + len], cmdl->no_par[start + len + 1]);
+		and_or = check_and_or(cmdl->no_par, start + len);
 	}
-	cmdl->cmd[cmd].raw = (char*)malloc(len + 1);
+	cmdl->cmd[cmd].raw = (char *)malloc(len + 1);
 	if (cmdl->cmd[cmd].raw == NULL)
 		exit_cmdl(cmdl, 1);
 	return (len);
 }
 
+/* COPIES COMMAND */
 void	copy_and_or(t_cmdl *cmdl, size_t cmd, size_t start)
 {
 	size_t	len;
@@ -76,17 +80,18 @@ void	copy_and_or(t_cmdl *cmdl, size_t cmd, size_t start)
 
 	len = 0;
 	quote = check_quote(0, cmdl->no_par[start]);
-	and_or = check_and_or(cmdl->no_par[start], cmdl->no_par[start + 1]);
+	and_or = check_and_or(cmdl->no_par, start);
 	while (quote > 0 || (and_or == 0 && cmdl->no_par[start + len] != '\0'))
 	{
 		cmdl->cmd[cmd].raw[len] = cmdl->no_par[start + len];
 		len++;
 		quote = check_quote(quote, cmdl->no_par[start + len]);
-		and_or = check_and_or(cmdl->no_par[start + len], cmdl->no_par[start + len + 1]);
+		and_or = check_and_or(cmdl->no_par, start + len);
 	}
 	cmdl->cmd[cmd].raw[len] = '\0';
 }
 
+/* SPLITS COMMAND LINE INTO COMMANDS */
 void	split_and_or(t_cmdl *cmdl)
 {
 	size_t	cmd;
@@ -101,7 +106,7 @@ void	split_and_or(t_cmdl *cmdl)
 			cmdl->cmd[cmd].and_or = 1;
 		else
 		{
-			cmdl->cmd[cmd].and_or = check_and_or(cmdl->no_par[start], cmdl->no_par[start + 1]);
+			cmdl->cmd[cmd].and_or = check_and_or(cmdl->no_par, start);
 			start += 2;
 		}
 		len = len_and_or(cmdl, cmd, start);

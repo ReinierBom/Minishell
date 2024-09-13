@@ -6,12 +6,13 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/09/12 19:40:53 by rbom          ########   odam.nl         */
+/*   Updated: 2024/09/13 18:35:00 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* COPIES ENVP TO STRUCT */
 void	copy_ev(t_cmdl *cmdl, char **envp)
 {
 	size_t	i;
@@ -29,6 +30,7 @@ void	copy_ev(t_cmdl *cmdl, char **envp)
 	cmdl->env[i] = NULL;
 }
 
+/* RETURNS VALUE ENV VAR */
 char	*return_ev(t_cmdl *cmdl, char *str)
 {
 	int	i;
@@ -54,6 +56,7 @@ char	*return_ev(t_cmdl *cmdl, char *str)
 	return (NULL);
 }
 
+/* REPLACES ENV VAR WITH VALUE IN STR */
 void	replace_ev_str(t_cmdl *cmdl, char *str)
 {
 	char	*temp;
@@ -66,6 +69,7 @@ void	replace_ev_str(t_cmdl *cmdl, char *str)
 	}
 }
 
+/* REPLACES ENV VAR WITH VALUE IN ARR */
 void	replace_ev_arr(t_cmdl *cmdl, char **arr, size_t n)
 {
 	size_t	i;

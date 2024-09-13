@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell_split_1.c                                :+:    :+:            */
+/*   minishell_split_par.c                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:37:56 by rbom          #+#    #+#                 */
-/*   Updated: 2024/09/12 14:43:01 by rbom          ########   odam.nl         */
+/*   Updated: 2024/09/13 18:40:01 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* CHECKS IF STR IS QUOTED */
 size_t	check_quote(size_t quote, char c)
 {
 	if (quote == 0 && c == '\'')
@@ -24,6 +25,7 @@ size_t	check_quote(size_t quote, char c)
 		return (quote);
 }
 
+/* COUNTS PAR */
 size_t	count_par(t_cmdl *cmdl)
 {
 	size_t	i;
@@ -43,6 +45,7 @@ size_t	count_par(t_cmdl *cmdl)
 	return (i - n);
 }
 
+/* REMOVES PAR */
 void	remove_par(t_cmdl *cmdl)
 {
 	size_t	i;

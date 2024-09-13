@@ -6,7 +6,7 @@
 #    By: rbom <rbom@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/11/21 16:58:14 by rbom          #+#    #+#                  #
-#    Updated: 2024/09/12 19:41:58 by rbom          ########   odam.nl          #
+#    Updated: 2024/09/13 16:34:56 by rbom          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRC 			=	minishell_main.c			\
 					minishell_split_par.c		\
 					minishell_split_and_or.c	\
 					minishell_split_pipe.c		\
+					minishell_split_redirect.c	\
 					minishell_env_substitute.c	\
 					minishell_env_edit.c		\
 					minishell_builtin.c			\

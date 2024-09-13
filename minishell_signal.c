@@ -6,12 +6,13 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/09/13 14:34:58 by rbom          ########   odam.nl         */
+/*   Updated: 2024/09/13 18:48:20 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* SIGNAL HANDLERS */
 // void	handle_sigint_ia(int sig)
 // {
 // 	g_signal = sig;
@@ -58,6 +59,7 @@
 
 
 
+/* SIGNAL HANDLERS */
 // void	handle_sigint_ia(int sig)
 // {
 // 	g_signal = sig;
@@ -92,6 +94,7 @@
 
 
 
+/* INIT SIGNAL STRUCTS */
 // void	signal_ia_mode(t_cmdl *cmdl)
 // {
 // 	cmdl->sa_int.sa_handler = &handle_sigint_ia;

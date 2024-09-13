@@ -6,12 +6,13 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/09/12 19:41:01 by rbom          ########   odam.nl         */
+/*   Updated: 2024/09/13 18:38:56 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* ADDS TO ENV VAR */
 void	add_ev(t_cmdl *cmdl, char *str)
 {
 	size_t	i;
@@ -35,6 +36,7 @@ void	add_ev(t_cmdl *cmdl, char *str)
 	cmdl->env = temp;
 }
 
+/* CHECKS IF STR IS ENV VAR */
 bool	check_ev(t_cmdl *cmdl, char *str, size_t i)
 {
 	int	j;
@@ -52,6 +54,7 @@ bool	check_ev(t_cmdl *cmdl, char *str, size_t i)
 	return (false);
 }
 
+/* REPLACES VALUE ENV VAR */
 void	replace_ev(t_cmdl *cmdl, char *str)
 {
 	size_t	i;
@@ -77,6 +80,7 @@ void	replace_ev(t_cmdl *cmdl, char *str)
 	cmdl->env = temp;
 }
 
+/* REPLACES VALUE IF ENV VAR IS PRESENT, OTHERWISE ADDS */
 void	add_replace_ev(t_cmdl *cmdl, char *str)
 {
 	int	i;
@@ -94,6 +98,7 @@ void	add_replace_ev(t_cmdl *cmdl, char *str)
 	add_ev(cmdl, str);
 }
 
+/* REMOVES ENV VAR */
 void	remove_ev(t_cmdl *cmdl, char *str)
 {
 	size_t	i;
