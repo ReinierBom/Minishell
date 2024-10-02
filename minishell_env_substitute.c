@@ -53,11 +53,11 @@ char	*return_ev(t_cmdl *cmdl, char *str)
 		}
 		i++;
 	}
-	return (NULL);
+	return ("\0");
 }
 
 /* REPLACES ENV VAR WITH VALUE IN STR */
-void	replace_ev_str(t_cmdl *cmdl, char *str)
+char	*replace_ev_str(t_cmdl *cmdl, char *str)
 {
 	char	*temp;
 
@@ -67,17 +67,5 @@ void	replace_ev_str(t_cmdl *cmdl, char *str)
 		free(str);
 		str = temp;
 	}
-}
-
-/* REPLACES ENV VAR WITH VALUE IN ARR */
-void	replace_ev_arr(t_cmdl *cmdl, char **arr, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n)
-	{
-		replace_ev_str(cmdl, arr[i]);
-		i++;
-	}
+	return (str);
 }

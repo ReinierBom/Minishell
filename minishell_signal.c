@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 /* SIGNAL HANDLERS */
-// void	handle_sigint_ia(int sig)
+// static void	handle_sigint_ia(int sig)
 // {
 // 	g_signal = sig;
 // 	printf("\n");
@@ -22,7 +22,7 @@
 // 	rl_redisplay();
 // }
 
-// void	handle_sigquit_ia(int sig)
+// static void	handle_sigquit_ia(int sig)
 // {
 // 	g_signal = sig;
 // 	// printf("\n");
@@ -31,7 +31,7 @@
 // 	rl_redisplay();
 // }
 
-// void	handle_sigint_nia(int sig)
+// static void	handle_sigint_nia(int sig)
 // {
 // 	g_signal = sig;
 // 	printf("\n");
@@ -41,7 +41,7 @@
 // 	kill(0, g_signal);
 // }
 
-// void	handle_sigquit_nia(int sig)
+// static void	handle_sigquit_nia(int sig)
 // {
 // 	g_signal = sig;
 // 	printf("Quit (core dumped)\n");
@@ -50,14 +50,6 @@
 // 	rl_redisplay();
 // 	kill(0, g_signal);
 // }
-
-
-
-
-
-
-
-
 
 /* SIGNAL HANDLERS */
 // void	handle_sigint_ia(int sig)
@@ -89,39 +81,29 @@
 // 	kill(0, SIGQUIT);
 // }
 
-
-
-
-
-
 /* INIT SIGNAL STRUCTS */
-// void	signal_ia_mode(t_cmdl *cmdl)
+// void	signal_mode(t_cmdl *cmdl, bool interactive)
 // {
-// 	cmdl->sa_int.sa_handler = &handle_sigint_ia;
-// 	sigemptyset(&cmdl->sa_int.sa_mask);
-// 	cmdl->sa_int.sa_flags = SA_RESTART;
-// 	sigaction(SIGINT, &cmdl->sa_int, NULL);
-
-
-// 	cmdl->sa_quit.sa_handler = &handle_sigquit_ia;
-// 	sigemptyset(&cmdl->sa_quit.sa_mask);
-// 	cmdl->sa_quit.sa_flags = SA_RESTART;
-// 	sigaction(SIGQUIT, &cmdl->sa_quit, NULL);
+// 	if (interactive == true)
+// 	{
+// 		cmdl->sa_int.sa_handler = &handle_sigint_ia;
+// 		sigemptyset(&cmdl->sa_int.sa_mask);
+// 		cmdl->sa_int.sa_flags = SA_RESTART;
+// 		sigaction(SIGINT, &cmdl->sa_int, NULL);		
+// 		cmdl->sa_quit.sa_handler = &handle_sigquit_ia;
+// 		sigemptyset(&cmdl->sa_quit.sa_mask);
+// 		cmdl->sa_quit.sa_flags = SA_RESTART;
+// 		sigaction(SIGQUIT, &cmdl->sa_quit, NULL);
+// 	}
+// 	else
+// 	{
+// 		cmdl->sa_int.sa_handler = &handle_sigint_nia;
+// 		sigemptyset(&cmdl->sa_int.sa_mask);
+// 		cmdl->sa_int.sa_flags = SA_RESTART;
+// 		sigaction(SIGINT, &cmdl->sa_int, NULL);
+// 		cmdl->sa_quit.sa_handler = &handle_sigquit_nia;
+// 		sigemptyset(&cmdl->sa_quit.sa_mask);
+// 		cmdl->sa_quit.sa_flags = SA_RESTART;
+// 		sigaction(SIGQUIT, &cmdl->sa_quit, NULL);
+// 	}	
 // }
-
-// void	signal_nia_mode(t_cmdl *cmdl)
-// {
-// 	cmdl->sa_int.sa_handler = &handle_sigint_nia;
-// 	sigemptyset(&cmdl->sa_int.sa_mask);
-// 	cmdl->sa_int.sa_flags = SA_RESTART;
-// 	sigaction(SIGINT, &cmdl->sa_int, NULL);
-
-
-// 	cmdl->sa_quit.sa_handler = &handle_sigquit_nia;
-// 	sigemptyset(&cmdl->sa_quit.sa_mask);
-// 	cmdl->sa_quit.sa_flags = SA_RESTART;
-// 	sigaction(SIGQUIT, &cmdl->sa_quit, NULL);
-// }
-
-
-

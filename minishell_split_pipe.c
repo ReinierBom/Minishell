@@ -13,88 +13,84 @@
 #include "minishell.h"
 
 /* COUNTS PIPES */
-void	count_pipe(t_cmdl *cmdl)
+static void	count_pipe(t_cmdl *cmdl, t_cmd *cmd)
 {
 	size_t	i;
-	size_t	cmd;
 	size_t	quote;
 
-	cmd = 0;
-	while (cmd < cmdl->n)
+	i = 0;
+	quote = 0;
+	cmd->n = 1;
+	while (quote > 0 || cmd->line[i] != '\0')
 	{
-		i = 0;
-		quote = 0;
-		cmdl->cmd[cmd].n = 1;
-		while (quote > 0 || cmdl->cmd[cmd].raw[i] != '\0')
-		{
-			quote = check_quote(quote, cmdl->cmd[cmd].raw[i]);
-			if (quote == 0 && cmdl->cmd[cmd].raw[i] == '|')
-				cmdl->cmd[cmd].n++;
-			i++;
-		}
-		cmdl->cmd[cmd].p = (t_pipe *)malloc(cmdl->cmd[cmd].n * sizeof(t_pipe));
-		if (cmdl->cmd[cmd].p == NULL)
-			exit_cmdl(cmdl, 1);
-		cmd++;
+		quote = check_quote(quote, cmd->line[i]);
+		if (quote == 0 && cmd->line[i] == '|')
+			cmd->n++;
+		i++;
 	}
+	cmd->pipe = (t_pipe *)malloc(cmd->n * sizeof(t_pipe));
+	if (cmd->pipe == NULL)
+		exit_cmdl(cmdl, 1);
+	init_pipe(cmd);
 }
 
 /* LENGTH PIPE */
-size_t	len_pipe(t_cmdl *cmdl, size_t cmd, size_t p, size_t start)
+size_t	len_pipe(t_cmdl *cmdl, t_cmd *cmd, size_t pipe, size_t start)
 {
 	size_t	len;
 	size_t	quote;
 
 	len = 0;
-	quote = check_quote(0, cmdl->cmd[cmd].raw[start]);
-	while ((quote > 0 || (cmdl->cmd[cmd].raw[start + len] != '|' && cmdl->cmd[cmd].raw[start + len] != '\0')))
+	quote = check_quote(0, cmd->line[start]);
+	while ((quote > 0 || (cmd->line[start + len] != '|' && cmd->line[start + len] != '\0')))
 	{
 		len++;
-		quote = check_quote(quote, cmdl->cmd[cmd].raw[start + len]);
+		quote = check_quote(quote, cmd->line[start + len]);
 	}
-	cmdl->cmd[cmd].p[p].raw = (char *)malloc(len + 1);
-	if (cmdl->cmd[cmd].p[p].raw == NULL)
+	cmd->pipe[pipe].line = (char *)malloc(len + 1);
+	if (cmd->pipe[pipe].line == NULL)
 		exit_cmdl(cmdl, 1);
 	return (len);
 }
 
 /* COPIES PIPE */
-void	copy_pipe(t_cmdl *cmdl, size_t cmd, size_t p, size_t start)
+void	copy_pipe(t_cmdl *cmdl, t_cmd *cmd, size_t pipe, size_t start)
 {
 	size_t	len;
 	size_t	quote;
 
 	len = 0;
-	quote = check_quote(0, cmdl->cmd[cmd].raw[start]);
-	while ((quote > 0 || (cmdl->cmd[cmd].raw[start + len] != '|' && cmdl->cmd[cmd].raw[start + len] != '\0')))
+	quote = check_quote(0, cmd->line[start]);
+	while ((quote > 0 || (cmd->line[start + len] != '|' && cmd->line[start + len] != '\0')))
 	{
-		cmdl->cmd[cmd].p[p].raw[len] = cmdl->cmd[cmd].raw[start + len];
+		cmd->pipe[pipe].line[len] = cmd->line[start + len];
 		len++;
-		quote = check_quote(quote, cmdl->cmd[cmd].raw[start + len]);
+		quote = check_quote(quote, cmd->line[start + len]);
 	}
-	cmdl->cmd[cmd].p[p].raw[len] = '\0';
+	cmd->pipe[pipe].line[len] = '\0';
+	cmd->pipe[pipe].line = remove_space(cmdl, cmd->pipe[pipe].line);
 }
 
 /* SPLITS COMMANDS INTO PIPES */
-void	split_pipe(t_cmdl *cmdl)
+void	split_pipe(t_cmdl *cmdl, t_cmd *cmd)
 {
-	size_t	cmd;
-	size_t	p;
+	size_t	pipe;
 	size_t	start;
 	size_t	len;
 
-	cmd = 0;
-	while (cmd < cmdl->n)
+	count_pipe(cmdl, cmd);
+	pipe = 0;
+	start = 0;
+	while (pipe < cmd->n)
 	{
-		p = 0;
-		start = 0;
-		while (p < cmdl->cmd[cmd].n)
-		{
-			len = len_pipe(cmdl, cmd, p, start);
-			copy_pipe(cmdl, cmd, p, start);
-			start += len + 1;
-			p++;
-		}
-		cmd++;
+		len = len_pipe(cmdl, cmd, pipe, start);
+		copy_pipe(cmdl, cmd, pipe, start);
+		copy_cmd(cmdl, &cmd->pipe[pipe]);
+		split_arg(cmdl, &cmd->pipe[pipe]);
+		// count_red(cmdl, &cmd->pipe[pipe]);
+		copy_red(cmdl, &cmd->pipe[pipe]);
+		split_red_arg(cmdl, &cmd->pipe[pipe]);
+		start += len + 1;
+		pipe++;
 	}
 }

@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 /* ADDS TO ENV VAR */
-void	add_ev(t_cmdl *cmdl, char *str)
+static void	add_ev(t_cmdl *cmdl, char *str)
 {
 	size_t	i;
 	char	**temp;
@@ -37,7 +37,7 @@ void	add_ev(t_cmdl *cmdl, char *str)
 }
 
 /* CHECKS IF STR IS ENV VAR */
-bool	check_ev(t_cmdl *cmdl, char *str, size_t i)
+static bool	check_ev(t_cmdl *cmdl, char *str, size_t i)
 {
 	int	j;
 
@@ -55,7 +55,7 @@ bool	check_ev(t_cmdl *cmdl, char *str, size_t i)
 }
 
 /* REPLACES VALUE ENV VAR */
-void	replace_ev(t_cmdl *cmdl, char *str)
+static void	replace_ev(t_cmdl *cmdl, char *str)
 {
 	size_t	i;
 	char	**temp;

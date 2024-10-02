@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 /* CHECKS IF && OR || */
-size_t	check_and_or(char *str, size_t i)
+static size_t	check_and_or(char *str, size_t i)
 {
 	if (str[i] == '&' && str[i + 1] == '&')
 		return (1);
@@ -24,7 +24,7 @@ size_t	check_and_or(char *str, size_t i)
 }
 
 /* COUNTS COMMANDS */
-void	count_and_or(t_cmdl *cmdl)
+static void	count_and_or(t_cmdl *cmdl)
 {
 	size_t	i;
 	size_t	quote;
@@ -33,10 +33,10 @@ void	count_and_or(t_cmdl *cmdl)
 	i = 0;
 	quote = 0;
 	cmdl->n = 1;
-	while (quote > 0 || cmdl->no_par[i] != '\0')
+	while (quote > 0 || cmdl->input[i] != '\0')
 	{
-		quote = check_quote(quote, cmdl->no_par[i]);
-		and_or = check_and_or(cmdl->no_par, i);
+		quote = check_quote(quote, cmdl->input[i]);
+		and_or = check_and_or(cmdl->input, i);
 		if (quote == 0 && and_or > 0)
 		{
 			cmdl->n++;
@@ -47,48 +47,50 @@ void	count_and_or(t_cmdl *cmdl)
 	cmdl->cmd = (t_cmd *)malloc(cmdl->n * sizeof(t_cmd));
 	if (cmdl->cmd == NULL)
 		exit_cmdl(cmdl, 1);
+	init_cmd(cmdl);
 }
 
 /* LENGTH COMMAND */
-size_t	len_and_or(t_cmdl *cmdl, size_t cmd, size_t start)
+static size_t	len_and_or(t_cmdl *cmdl, size_t cmd, size_t start)
 {
 	size_t	len;
 	size_t	quote;
 	size_t	and_or;
 
 	len = 0;
-	quote = check_quote(0, cmdl->no_par[start]);
-	and_or = check_and_or(cmdl->no_par, start);
-	while ((quote > 0 || (and_or == 0 && cmdl->no_par[start + len] != '\0')))
+	quote = check_quote(0, cmdl->input[start]);
+	and_or = check_and_or(cmdl->input, start);
+	while ((quote > 0 || (and_or == 0 && cmdl->input[start + len] != '\0')))
 	{
 		len++;
-		quote = check_quote(quote, cmdl->no_par[start + len]);
-		and_or = check_and_or(cmdl->no_par, start + len);
+		quote = check_quote(quote, cmdl->input[start + len]);
+		and_or = check_and_or(cmdl->input, start + len);
 	}
-	cmdl->cmd[cmd].raw = (char *)malloc(len + 1);
-	if (cmdl->cmd[cmd].raw == NULL)
+	cmdl->cmd[cmd].line = (char *)malloc(len + 1);
+	if (cmdl->cmd[cmd].line == NULL)
 		exit_cmdl(cmdl, 1);
 	return (len);
 }
 
 /* COPIES COMMAND */
-void	copy_and_or(t_cmdl *cmdl, size_t cmd, size_t start)
+static void	copy_and_or(t_cmdl *cmdl, size_t cmd, size_t start)
 {
 	size_t	len;
 	size_t	quote;
 	size_t	and_or;
 
 	len = 0;
-	quote = check_quote(0, cmdl->no_par[start]);
-	and_or = check_and_or(cmdl->no_par, start);
-	while (quote > 0 || (and_or == 0 && cmdl->no_par[start + len] != '\0'))
+	quote = check_quote(0, cmdl->input[start]);
+	and_or = check_and_or(cmdl->input, start);
+	while (quote > 0 || (and_or == 0 && cmdl->input[start + len] != '\0'))
 	{
-		cmdl->cmd[cmd].raw[len] = cmdl->no_par[start + len];
+		cmdl->cmd[cmd].line[len] = cmdl->input[start + len];
 		len++;
-		quote = check_quote(quote, cmdl->no_par[start + len]);
-		and_or = check_and_or(cmdl->no_par, start + len);
+		quote = check_quote(quote, cmdl->input[start + len]);
+		and_or = check_and_or(cmdl->input, start + len);
 	}
-	cmdl->cmd[cmd].raw[len] = '\0';
+	cmdl->cmd[cmd].line[len] = '\0';
+	cmdl->cmd[cmd].line = remove_space(cmdl,cmdl->cmd[cmd].line);
 }
 
 /* SPLITS COMMAND LINE INTO COMMANDS */
@@ -98,15 +100,16 @@ void	split_and_or(t_cmdl *cmdl)
 	size_t	start;
 	size_t	len;
 
+	count_and_or(cmdl);
 	cmd = 0;
 	start = 0;
 	while (cmd < cmdl->n)
 	{
 		if (cmd == 0)
-			cmdl->cmd[cmd].and_or = 1;
+			cmdl->cmd[cmd].and_or = 0;
 		else
 		{
-			cmdl->cmd[cmd].and_or = check_and_or(cmdl->no_par, start);
+			cmdl->cmd[cmd].and_or = check_and_or(cmdl->input, start) - 1;
 			start += 2;
 		}
 		len = len_and_or(cmdl, cmd, start);
@@ -114,4 +117,5 @@ void	split_and_or(t_cmdl *cmdl)
 		start += len;
 		cmd++;
 	}
+	prioritise(cmdl);
 }

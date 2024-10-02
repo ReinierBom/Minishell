@@ -35,10 +35,7 @@ bool	empty_line(t_cmdl *cmdl)
 		exit_cmdl(cmdl, 0);
 	i = 0;
 	while (cmdl->input[i] != '\0')
-	{
-		if (space(cmdl->input[i]) == false)
+		if (space(cmdl->input[i++]) == false)
 			return (false);
-		i++;
-	}
 	return (true);
 }

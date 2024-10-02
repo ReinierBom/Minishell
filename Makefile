@@ -17,16 +17,21 @@ CFLAGS			=	-Wall -Wextra -Werror
 RLFLAG			=	-lreadline
 
 SRC 			=	minishell_main.c			\
-					minishell_input.c			\
-					minishell_signal.c			\
-					minishell_split_par.c		\
-					minishell_split_and_or.c	\
-					minishell_split_pipe.c		\
-					minishell_split_redirect.c	\
 					minishell_env_substitute.c	\
 					minishell_env_edit.c		\
-					minishell_builtin.c			\
-					minishell_free.c
+					minishell_input.c			\
+					minishell_init_free.c		\
+					minishell_signal.c			\
+					minishell_split_helper.c	\
+					minishell_split_and_or.c	\
+					minishell_split_priority.c	\
+					minishell_split_pipe.c		\
+					minishell_split_cmd.c		\
+					minishell_split_arg.c		\
+					minishell_split_red.c		\
+					minishell_split_red_arg.c	\
+					minishell_count_env.c		\
+					minishell_builtin.c
 			
 OBJ				=	$(SRC:%.c=$(OBJDIR)/%.o)
 OBJDIR			=	obj
