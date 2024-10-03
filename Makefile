@@ -6,7 +6,7 @@
 #    By: rbom <rbom@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/11/21 16:58:14 by rbom          #+#    #+#                  #
-#    Updated: 2024/09/13 16:34:56 by rbom          ########   odam.nl          #
+#    Updated: 2024/10/02 17:59:27 by rbom          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,44 +16,46 @@ CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror
 RLFLAG			=	-lreadline
 
-SRC 			=	minishell_main.c			\
-					minishell_env_substitute.c	\
-					minishell_env_edit.c		\
-					minishell_input.c			\
-					minishell_init_free.c		\
-					minishell_signal.c			\
-					minishell_split_helper.c	\
-					minishell_split_and_or.c	\
-					minishell_split_priority.c	\
-					minishell_split_pipe.c		\
-					minishell_split_cmd.c		\
-					minishell_split_arg.c		\
-					minishell_split_red.c		\
-					minishell_split_red_arg.c	\
-					minishell_count_env.c		\
-					minishell_builtin.c
+SRC 			=	0_main/0_main.c				\
+					1_init_free/1_1_init.c		\
+					1_init_free/1_2_init_free.c	\
+					2_env/2_1_env_substitute.c	\
+					2_env/2_2_env_edit.c		\
+					3_input/3_1_input.c			\
+					4_signal/4_1_signal.c		\
+					5_parse/5_0_helper.c		\
+					5_parse/5_1_and_or.c		\
+					5_parse/5_2_sub.c			\
+					5_parse/5_3_pipe.c			\
+					5_parse/5_4_cmd.c			\
+					5_parse/5_5_arg.c			\
+					5_parse/5_6_red.c			\
+					5_parse/5_7_red_arg.c		\
+					5_parse/5_8_env.c			\
+					5_parse/5_9_quote.c
 			
-OBJ				=	$(SRC:%.c=$(OBJDIR)/%.o)
 OBJDIR			=	obj
+OBJ				=	$(SRC:%.c=$(OBJDIR)/%.o)
+OBJDIRS			=	$(sort $(dir $(OBJ)))
 
 
 
 all				:	$(NAME)
 
-$(OBJDIR)		:
-					mkdir -p $(OBJDIR)
-
-$(OBJDIR)/%.o	:	%.c
+$(OBJDIR)/%.o	: %.c | $(OBJDIRS)
 					$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME)			:	$(OBJDIR) $(OBJ)
+$(OBJDIRS)		:
+					mkdir -p $(OBJDIRS)
+
+$(NAME)			:	$(OBJ)
 					$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(RLFLAG)
 			
 clean			:
 					rm -rf $(OBJDIR)
 
 fclean			:	clean
-					rm -rf $(NAME)
+					rm -f $(NAME)
 
 re				:	fclean all
 
