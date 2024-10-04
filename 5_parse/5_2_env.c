@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:37:56 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/02 18:00:53 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/03 17:48:11 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static size_t	len_env_var(char *str, size_t i)
 		while (str[i + len] == '_' || (str[i + len] >= '0' && str[i + len] <= '9') || (str[i + len] >= 'A' && str[i + len] <= 'Z') || (str[i + len] >= 'a' && str[i + len] <= 'z'))
 			len++;
 	}
-	else if (str[i + len] == '?' || (str[i + len] >= '0' && str[i + len] <= '9') || str[i + len] == '?' || str[i + len] == '$' || str[i + len] == '!' || str[i + len] == '#' || str[i + len] == '@' || str[i + len] == '*' || str[i + len] == '-')
+	else if (str[i + len] == '?' || (str[i + len] >= '0' && str[i + len] <= '9') || str[i + len] == '$' || str[i + len] == '!' || str[i + len] == '#' || str[i + len] == '@' || str[i + len] == '*' || str[i + len] == '-')
 		len++;
 	else if (str[i + len] == '{')
 	{

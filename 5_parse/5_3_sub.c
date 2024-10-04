@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:37:56 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/02 17:11:43 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/04 16:12:28 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	sub_open_close(t_cmd *cmd)
 	cmd->open = 0;
 	cmd->close = 0;
 	i = 0;
-	while (cmd->line[i] == '(' || space(cmd->line[i]))
+	while (cmd->line[i] != '\0' && (cmd->line[i] == '(' || space(cmd->line[i])))
 	{
 		if (cmd->line[i] == '(')
 			cmd->open++;
@@ -82,19 +82,16 @@ static void	sub_open_close(t_cmd *cmd)
 /* SETS PRIORITY */
 void	subshell(t_cmdl *cmdl)
 {
-	size_t	sub;
 	size_t	cmd;
 
-	sub = 0;
 	cmd = 0;
 	while (cmd < cmdl->n)
 	{
 		sub_open_close(&cmdl->cmd[cmd]);
-		sub += cmdl->cmd[cmd].open;
-		cmdl->cmd[cmd].sub = sub;
-		sub -= cmdl->cmd[cmd].close;
+		cmdl->sub += cmdl->cmd[cmd].open;
+		cmdl->cmd[cmd].sub = cmdl->sub;
+		cmdl->sub -= cmdl->cmd[cmd].close;
 		cmdl->cmd[cmd].line = remove_sub(cmdl, cmdl->cmd[cmd].line);
-		split_pipe(cmdl, &cmdl->cmd[cmd]);
 		cmd++;
 	}
 }

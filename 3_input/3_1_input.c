@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/02 19:59:12 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/03 19:08:19 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,14 @@ static bool	empty_line(t_cmdl *cmdl)
 bool	check_input(t_cmdl *cmdl)
 {
 	if (empty_line(cmdl) == true)
+	{
+		free(cmdl->input);
 		return (false);
-	add_history(cmdl->input);
-	signal_mode(cmdl, false);
-	return (true);
+	}
+	else
+	{
+		add_history(cmdl->input);
+		signal_mode(cmdl, false);
+		return (true);
+	}
 }

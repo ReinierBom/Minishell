@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:37:56 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/02 17:11:57 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/04 15:02:41 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ static void	copy_and_or(t_cmdl *cmdl, size_t cmd, size_t start)
 		and_or = check_and_or(cmdl->input, start + len);
 	}
 	cmdl->cmd[cmd].line[len] = '\0';
+	cmdl->cmd[cmd].line = split_env_var(cmdl, cmdl->cmd[cmd].line);
 	cmdl->cmd[cmd].line = remove_space(cmdl, cmdl->cmd[cmd].line);
 }
 

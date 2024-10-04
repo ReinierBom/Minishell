@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 17:10:47 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/02 18:00:33 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/04 17:42:51 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,19 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/wait.h>
 
 extern int	g_signal;
 
 typedef struct s_pipe
 {
-	char		*line;
-	char		*cmd;
-	size_t		n_arg;
-	char		**arg;
-	size_t		n_red;
-	size_t		*red;
-	char		**red_arg;
+	char	*line;
+	char	*cmd;
+	size_t	n_arg;
+	char	**arg;
+	size_t	n_red;
+	size_t	*red;
+	char	**red_arg;
 }	t_pipe;
 
 typedef struct s_cmd
@@ -94,32 +95,25 @@ size_t	check_quote(size_t quote, char c);
 char	*remove_space(t_cmdl *cmdl, char *str);
 /* 5_1_and_or */
 void	parse_cmdl(t_cmdl *cmdl);
-/* 5_2_sub */
+/* 5_8_env */
+char	*split_env_var(t_cmdl *cmdl, char *str);
+/* 5_3_sub */
 void	subshell(t_cmdl *cmdl);
-/* 5_3_pipe */
+/* 5_4_pipe */
 void	split_pipe(t_cmdl *cmdl, t_cmd *cmd);
-/* 5_4_cmd */
+/* 5_5_cmd */
 size_t	len_cmd(t_pipe *pipe);
 void	copy_cmd(t_cmdl *cmdl, t_pipe *pipe);
-/* 5_5_arg */
+/* 5_6_arg */
 size_t	check_red(char *str, size_t i);
 size_t	start_red(t_pipe *pipe);
 void	split_arg(t_cmdl *cmdl, t_pipe *pipe);
-/* 5_6_red */
+/* 5_7_red */
 void	copy_red(t_cmdl *cmdl, t_pipe *pipe);
-/* 5_7_red_arg */
+/* 5_8_red_arg */
 void	split_red_arg(t_cmdl *cmdl, t_pipe *pipe);
-/* 5_8_env */
-char	*split_env_var(t_cmdl *cmdl, char *str);
 /* 5_9_quote */
 char	*concat_str(t_cmdl *cmdl, char **str_arr, size_t n);
 char	*remove_quote(t_cmdl *cmdl, char *str);
-
-
-
-
-
-
-
 
 #endif

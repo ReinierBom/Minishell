@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/02 14:55:47 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/04 17:21:36 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,16 @@ static void	free_pipe(t_pipe *pipe)
 		arg = 0;
 		while (arg < pipe->n_arg || arg < pipe->n_red)
 		{
-			if (pipe->arg != NULL && pipe->arg[arg] != NULL)
+			if (arg < pipe->n_arg && pipe->arg != NULL && pipe->arg[arg] != NULL)
 				free(pipe->arg[arg]);
-			if (pipe->red_arg != NULL && pipe->red_arg[arg] != NULL)
+			if (arg < pipe->n_red && pipe->red_arg != NULL && pipe->red_arg[arg] != NULL)
 				free(pipe->red_arg[arg]);
 			arg++;
 		}
-		free(pipe->arg);
-		free(pipe->red_arg);
+		if (pipe->arg != NULL)
+			free(pipe->arg);
+		if (pipe->red_arg != NULL)
+			free(pipe->red_arg);
 	}
 }
 
@@ -126,9 +128,13 @@ void	free_cmdl(t_cmdl *cmdl)
 			{
 				pipe = 0;
 				while (pipe < cmdl->cmd[cmd].n)
-					free_pipe(&cmdl->cmd[cmd].pipe[pipe++]);
+				{
+					free_pipe(&cmdl->cmd[cmd].pipe[pipe]);
+					pipe++;
+				}
 			}
-			free(cmdl->cmd[cmd++].pipe);
+			free(cmdl->cmd[cmd].pipe);
+			cmd++;
 		}
 		free(cmdl->cmd);
 	}
@@ -136,6 +142,8 @@ void	free_cmdl(t_cmdl *cmdl)
 
 void	exit_cmdl(t_cmdl *cmdl, size_t exit_code)
 {
+	// if (cmdl->pid != 0)
+		printf("exit\n");
 	free_cmdl(cmdl);
 	if (cmdl->env != NULL)
 		free(cmdl->env);

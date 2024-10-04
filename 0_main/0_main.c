@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/02 18:15:52 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/04 17:36:31 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	test_parsing(t_cmdl *cmdl)
 	size_t	pipe;
 	size_t	arg;
 
-	parse_cmdl(cmdl);
 	printf("\nINPUT:\t\t\t\t\t%s\n", cmdl->input);
 	printf("N_CMD:\t\t\t\t\t%li\n", cmdl->n);
 	cmd = 0;
@@ -73,23 +72,59 @@ void	test_parsing(t_cmdl *cmdl)
 int	main(int argc, char **argv, char **envp)
 {
 	t_cmdl	cmdl;
+	size_t	cmd;
+	// size_t	sub;
 
 	init_start(&cmdl, envp);
-	while (cmdl.pid != 0 && argc != 0 && argv[0] != NULL)
+	while (argc != 0 && argv[0] != NULL)
 	{
 		init_cmdl(&cmdl);
 		cmdl.input = readline("MINISHELL> ");
-		if (check_input(&cmdl) == true)
+		if (check_input(&cmdl) == false)
+			continue ;
+		parse_cmdl(&cmdl);
+		
+		
+		cmd = 0;
+		// sub = 0;
+		while (cmd < cmdl.n)
 		{
-			// parse_cmdl(&cmdl);
-
-
-			
-			
-			test_parsing(&cmdl);
+			split_pipe(&cmdl, &cmdl.cmd[cmd]);
+			// while (cmdl.cmd[cmd].open > 0)
+			// {
+			// 	cmdl.pid = fork();
+			// 	if (cmdl.pid == 0)
+			// 		sub++;
+			// 	cmdl.cmd[cmd].open--;
+			// }
+			// if (cmdl.cmd[cmd].sub == sub)
+			// {
+			// 	printf("RUN:\t%li\t%li\t%li\n", cmd, sub, cmdl.cmd[cmd].sub);
+			// }
+			// else
+			// {
+			// 	printf("WAIT:\t%li\t%li\t%li\n", cmd, sub, cmdl.cmd[cmd].sub);
+			// 	waitpid(-1, NULL, 0);
+			// }
+			// while (cmdl.cmd[cmd].close > 0)
+			// {
+			// 	sub--;
+			// 	cmdl.cmd[cmd].close--;
+			// }
+			// if (cmdl.cmd[cmd].sub > sub)
+			// {
+			// 	printf("EXIT:\t%li\t%li\t%li\n", cmd, sub, cmdl.cmd[cmd].sub);
+			// 	exit_cmdl(&cmdl, 0);
+			// }
+			cmd++;
 		}
-		if (cmdl.pid == 0)
-			exit_cmdl(&cmdl, 0);
+		
+		// printf("test 1\n");
+		// sleep(5);
+		// printf("test 2\n");
+
+		test_parsing(&cmdl);
+		
 		free_cmdl(&cmdl);
 	}
 }

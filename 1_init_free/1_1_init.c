@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   1_init.c                                           :+:    :+:            */
+/*   1_1_init.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/02 14:15:56 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/03 19:08:29 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	init_start(t_cmdl *cmdl, char **envp)
 
 void	init_cmdl(t_cmdl *cmdl)
 {
-	// signal_mode(cmdl, true);
+	signal_mode(cmdl, true);
 	cmdl->sub = 0;
 	cmdl->input = NULL;
 	cmdl->n = 0;

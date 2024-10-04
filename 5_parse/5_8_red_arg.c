@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:37:56 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/02 17:34:10 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/03 18:31:33 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	split_red_arg(t_cmdl *cmdl, t_pipe *pipe)
 		start = start_red_arg(pipe->line, start);
 		len = len_red_arg(cmdl, pipe, red, start);
 		copy_red_arg(pipe, red, start);
-		pipe->red_arg[red] = split_env_var(cmdl, pipe->red_arg[red]);
+		// pipe->red_arg[red] = split_env_var(cmdl, pipe->red_arg[red]);
 		pipe->red_arg[red] = remove_quote(cmdl, pipe->red_arg[red]);
 		start += len;
 		red++;

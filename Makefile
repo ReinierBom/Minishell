@@ -6,7 +6,7 @@
 #    By: rbom <rbom@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/11/21 16:58:14 by rbom          #+#    #+#                  #
-#    Updated: 2024/10/02 17:59:27 by rbom          ########   odam.nl          #
+#    Updated: 2024/10/04 17:40:05 by rbom          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,13 +25,13 @@ SRC 			=	0_main/0_main.c				\
 					4_signal/4_1_signal.c		\
 					5_parse/5_0_helper.c		\
 					5_parse/5_1_and_or.c		\
-					5_parse/5_2_sub.c			\
-					5_parse/5_3_pipe.c			\
-					5_parse/5_4_cmd.c			\
-					5_parse/5_5_arg.c			\
-					5_parse/5_6_red.c			\
-					5_parse/5_7_red_arg.c		\
-					5_parse/5_8_env.c			\
+					5_parse/5_2_env.c			\
+					5_parse/5_3_sub.c			\
+					5_parse/5_4_pipe.c			\
+					5_parse/5_5_cmd.c			\
+					5_parse/5_6_arg.c			\
+					5_parse/5_7_red.c			\
+					5_parse/5_8_red_arg.c		\
 					5_parse/5_9_quote.c
 			
 OBJDIR			=	obj

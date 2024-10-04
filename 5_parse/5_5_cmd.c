@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:37:56 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/02 17:58:47 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/03 18:31:06 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,6 @@ void	copy_cmd(t_cmdl *cmdl, t_pipe *pipe)
 		quote = check_quote(quote, pipe->line[i]);
 	}
 	pipe->cmd[i] = '\0';
-	pipe->cmd = split_env_var(cmdl, pipe->cmd);
+	// pipe->cmd = split_env_var(cmdl, pipe->cmd);
 	pipe->cmd = remove_quote(cmdl, pipe->cmd);
 }
