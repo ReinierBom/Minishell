@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   5_2_sub.c                                          :+:    :+:            */
+/*   5_3_sub.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:37:56 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/04 16:12:28 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/12 20:17:44 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /* COUNTS PAR */
-static size_t	count_sub(char *str)
+static size_t	len_sub(char *str)
 {
 	size_t	start;
 	size_t	len;
@@ -24,7 +24,8 @@ static size_t	count_sub(char *str)
 		start++;
 	while (str[start + len] != '\0')
 		len++;
-	while (len > 0 && (str[start + len - 1] == ')' || space(str[start + len - 1])))
+	while (len > 0
+		&& (str[start + len - 1] == ')' || space(str[start + len - 1])))
 		len--;
 	return (len);
 }
@@ -37,10 +38,10 @@ static char	*remove_sub(t_cmdl *cmdl, char *str)
 	size_t	start;
 	size_t	i;
 
-	len = count_sub(str);
+	len = len_sub(str);
 	no_par = (char *)malloc(len + 1);
 	if (no_par == NULL)
-		exit_cmdl(cmdl, 1);
+		exit_cmdl(cmdl, 1, false);
 	start = 0;
 	i = 0;
 	while (str[start] == '(' || space(str[start]))
@@ -88,9 +89,6 @@ void	subshell(t_cmdl *cmdl)
 	while (cmd < cmdl->n)
 	{
 		sub_open_close(&cmdl->cmd[cmd]);
-		cmdl->sub += cmdl->cmd[cmd].open;
-		cmdl->cmd[cmd].sub = cmdl->sub;
-		cmdl->sub -= cmdl->cmd[cmd].close;
 		cmdl->cmd[cmd].line = remove_sub(cmdl, cmdl->cmd[cmd].line);
 		cmd++;
 	}

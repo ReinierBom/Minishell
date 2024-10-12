@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/03 19:07:56 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/11 16:42:04 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* SIGNAL HANDLERS */
 static void	handle_sigint_ia(int sig)
 {
-	g_signal = sig;
+	g_exit = sig;
 	printf("\n");
 	// rl_replace_line("", 0);
 	rl_on_new_line();
@@ -32,22 +32,22 @@ static void	handle_sigquit_ia(int sig)
 
 static void	handle_sigint_nia(int sig)
 {
-	g_signal = sig;
+	g_exit = sig;
 	// printf("\n");
 	// rl_replace_line("", 0);
 	// rl_on_new_line();
 	// rl_redisplay();
-	// kill(0, g_signal);
+	// kill(0, g_exit);
 }
 
 static void	handle_sigquit_nia(int sig)
 {
-	g_signal = sig;
+	g_exit = sig;
 	// printf("Quit (core dumped)\n");
 	// rl_replace_line("", 0);
 	// rl_on_new_line();
 	// rl_redisplay();
-	// kill(0, g_signal);
+	// kill(0, g_exit);
 }
 
 /* INIT SIGNAL STRUCTS */

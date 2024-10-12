@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/03 19:08:29 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/11 17:23:22 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 void	init_start(t_cmdl *cmdl, char **envp)
 {
-	cmdl->pid = 1;
-	g_signal = 0;
+	g_exit = 0;
 	copy_ev(cmdl, envp);
 	add_replace_ev(cmdl, "?=0");
 }
@@ -24,6 +23,7 @@ void	init_cmdl(t_cmdl *cmdl)
 {
 	signal_mode(cmdl, true);
 	cmdl->sub = 0;
+	cmdl->sub_cmd = 0;
 	cmdl->input = NULL;
 	cmdl->n = 0;
 	cmdl->cmd = NULL;
@@ -38,7 +38,6 @@ void	init_cmd(t_cmdl *cmdl)
 	{
 		cmdl->cmd[cmd].and_or = 0;
 		cmdl->cmd[cmd].open = 0;
-		cmdl->cmd[cmd].sub = 0;
 		cmdl->cmd[cmd].close = 0;
 		cmdl->cmd[cmd].line = NULL;
 		cmdl->cmd[cmd].n = 0;

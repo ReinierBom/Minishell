@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   5_3_pipe.c                                         :+:    :+:            */
+/*   5_4_pipe.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:37:56 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/03 18:27:42 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/12 20:27:24 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	count_pipe(t_cmdl *cmdl, t_cmd *cmd)
 	}
 	cmd->pipe = (t_pipe *)malloc(cmd->n * sizeof(t_pipe));
 	if (cmd->pipe == NULL)
-		exit_cmdl(cmdl, 1);
+		exit_cmdl(cmdl, 1, false);
 	init_pipe(cmd);
 }
 
@@ -40,16 +40,17 @@ static size_t	len_pipe(t_cmdl *cmdl, t_cmd *cmd, size_t pipe, size_t start)
 	size_t	len;
 	size_t	quote;
 
-	len = 0;
-	quote = check_quote(0, cmd->line[start]);
-	while ((quote > 0 || (cmd->line[start + len] != '|' && cmd->line[start + len] != '\0')))
+	len = start;
+	quote = check_quote(0, cmd->line[len]);
+	while ((quote > 0 || (cmd->line[len] != '|' && cmd->line[len] != '\0')))
 	{
 		len++;
-		quote = check_quote(quote, cmd->line[start + len]);
+		quote = check_quote(quote, cmd->line[len]);
 	}
+	len -= start;
 	cmd->pipe[pipe].line = (char *)malloc(len + 1);
 	if (cmd->pipe[pipe].line == NULL)
-		exit_cmdl(cmdl, 1);
+		exit_cmdl(cmdl, 1, false);
 	return (len);
 }
 
@@ -61,7 +62,8 @@ static void	copy_pipe(t_cmdl *cmdl, t_cmd *cmd, size_t pipe, size_t start)
 
 	len = 0;
 	quote = check_quote(0, cmd->line[start]);
-	while ((quote > 0 || (cmd->line[start + len] != '|' && cmd->line[start + len] != '\0')))
+	while ((quote > 0 || (cmd->line[start + len] != '|'
+				&& cmd->line[start + len] != '\0')))
 	{
 		cmd->pipe[pipe].line[len] = cmd->line[start + len];
 		len++;
@@ -72,7 +74,7 @@ static void	copy_pipe(t_cmdl *cmdl, t_cmd *cmd, size_t pipe, size_t start)
 }
 
 /* SPLITS COMMANDS INTO PIPES */
-void	split_pipe(t_cmdl *cmdl, t_cmd *cmd)
+void	parse_cmd(t_cmdl *cmdl, t_cmd *cmd)
 {
 	size_t	pipe;
 	size_t	start;

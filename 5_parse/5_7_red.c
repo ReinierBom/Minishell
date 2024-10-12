@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   5_6_red.c                                          :+:    :+:            */
+/*   5_7_red.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:37:56 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/02 18:00:09 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/11 17:32:51 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,13 @@ size_t	check_red(char *str, size_t i)
 		return (0);
 }
 
-/* START REDIRECTS */
-size_t	start_red(t_pipe *pipe)
-{
-	size_t	start;
-	size_t	quote;
-
-	start = 0;
-	quote = check_quote(0, pipe->line[start]);
-	while (quote > 0 || (pipe->line[start] != '<' && pipe->line[start] != '>' && pipe->line[start] != '\0'))
-	{
-		start++;
-		quote = check_quote(quote, pipe->line[start]);
-	}
-	return (start);
-}
-
 /* COUNTS REDIRECTS */
 static void	count_red(t_cmdl *cmdl, t_pipe *pipe)
 {
 	size_t	i;
 	size_t	quote;
 
-	i = start_red(pipe);
+	i = 0;
 	quote = check_quote(0, pipe->line[i]);
 	while (quote > 0 || pipe->line[i] != '\0')
 	{
@@ -62,12 +46,13 @@ static void	count_red(t_cmdl *cmdl, t_pipe *pipe)
 		i++;
 		quote = check_quote(quote, pipe->line[i]);
 	}
-	pipe->red = (size_t *)malloc(pipe->n_arg * sizeof(size_t));
-	if (pipe->arg == NULL)
-		exit_cmdl(cmdl, 1);
-	pipe->red_arg = (char **)malloc(pipe->n_arg * sizeof(char *));
-	if (pipe->arg == NULL)
-		exit_cmdl(cmdl, 1);
+	pipe->red = (size_t *)malloc(pipe->n_red * sizeof(size_t));
+	if (pipe->red == NULL)
+		exit_cmdl(cmdl, 1, false);
+	pipe->red_arg = (char **)malloc(pipe->n_red * sizeof(char *));
+	if (pipe->red_arg == NULL)
+		exit_cmdl(cmdl, 1, false);
+	init_red_arg(pipe);
 }
 
 /* COPIES REDIRECTS */
@@ -78,7 +63,7 @@ void	copy_red(t_cmdl *cmdl, t_pipe *pipe)
 	size_t	quote;
 
 	count_red(cmdl, pipe);
-	i = start_red(pipe);
+	i = 0;
 	red = 0;
 	quote = check_quote(0, pipe->line[i]);
 	while (quote > 0 || pipe->line[i] != '\0')

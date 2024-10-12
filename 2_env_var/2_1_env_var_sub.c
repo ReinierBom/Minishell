@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   2_1_env_substitute.c                               :+:    :+:            */
+/*   2_1_env_var_sub.c                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/02 15:01:30 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/11 17:50:19 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	copy_ev(t_cmdl *cmdl, char **envp)
 	while (envp[i] != NULL)
 		i++;
 	cmdl->env = (char **)malloc((i + 1) * sizeof(char *));
+	if (cmdl->env == NULL)
+		exit_cmdl(cmdl, 1, false);
 	i = 0;
 	while (envp[i] != NULL)
 	{

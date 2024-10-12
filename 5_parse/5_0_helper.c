@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:37:56 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/02 17:08:37 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/11 17:31:06 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*remove_space(t_cmdl *cmdl, char *str)
 	len = count_space(str);
 	no_space = (char *)malloc(len + 1);
 	if (no_space == NULL)
-		exit_cmdl(cmdl, 1);
+		exit_cmdl(cmdl, 1, false);
 	start = 0;
 	i = 0;
 	while (space(str[start]))

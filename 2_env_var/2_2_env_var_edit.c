@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   2_2_env_edit.c                                     :+:    :+:            */
+/*   2_2_env_var_edit.c                                 :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/02 15:01:35 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/11 17:30:48 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	add_ev(t_cmdl *cmdl, char *str)
 		i++;
 	temp = (char **)malloc((i + 2) * sizeof(char *));
 	if (temp == NULL)
-		exit_cmdl(cmdl, 1);
+		exit_cmdl(cmdl, 1, false);
 	i = 0;
 	while (cmdl->env[i] != NULL)
 	{
@@ -65,7 +65,7 @@ static void	replace_ev(t_cmdl *cmdl, char *str)
 		i++;
 	temp = (char **)malloc((i + 1) * sizeof(char *));
 	if (temp == NULL)
-		exit_cmdl(cmdl, 1);
+		exit_cmdl(cmdl, 1, false);
 	i = 0;
 	while (cmdl->env[i] != NULL)
 	{
@@ -110,7 +110,7 @@ void	remove_ev(t_cmdl *cmdl, char *str)
 		i++;
 	temp = (char **)malloc((i) * sizeof(char *));
 	if (temp == NULL)
-		exit_cmdl(cmdl, 1);
+		exit_cmdl(cmdl, 1, false);
 	i = 0;
 	j = 0;
 	while (cmdl->env[i] != NULL)

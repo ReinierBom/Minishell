@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 14:12:14 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/03 19:08:19 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/11 17:31:15 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static bool	empty_line(t_cmdl *cmdl)
 	size_t	i;
 
 	if (cmdl->input == NULL)
-		exit_cmdl(cmdl, 0);
+		exit_cmdl(cmdl, 0, true);
 	i = 0;
 	while (cmdl->input[i] != '\0')
 		if (space(cmdl->input[i++]) == false)

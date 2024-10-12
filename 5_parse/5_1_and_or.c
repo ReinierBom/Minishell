@@ -6,7 +6,7 @@
 /*   By: rbom <rbom@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:37:56 by rbom          #+#    #+#                 */
-/*   Updated: 2024/10/04 15:02:41 by rbom          ########   odam.nl         */
+/*   Updated: 2024/10/12 20:13:33 by rbom          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	count_and_or(t_cmdl *cmdl)
 	}
 	cmdl->cmd = (t_cmd *)malloc(cmdl->n * sizeof(t_cmd));
 	if (cmdl->cmd == NULL)
-		exit_cmdl(cmdl, 1);
+		exit_cmdl(cmdl, 1, false);
 	init_cmd(cmdl);
 }
 
@@ -58,17 +58,17 @@ static size_t	len_and_or(t_cmdl *cmdl, size_t cmd, size_t start)
 	size_t	and_or;
 
 	len = 0;
-	quote = check_quote(0, cmdl->input[start]);
+	quote = 0;
 	and_or = check_and_or(cmdl->input, start);
 	while ((quote > 0 || (and_or == 0 && cmdl->input[start + len] != '\0')))
 	{
-		len++;
 		quote = check_quote(quote, cmdl->input[start + len]);
+		len++;
 		and_or = check_and_or(cmdl->input, start + len);
 	}
 	cmdl->cmd[cmd].line = (char *)malloc(len + 1);
 	if (cmdl->cmd[cmd].line == NULL)
-		exit_cmdl(cmdl, 1);
+		exit_cmdl(cmdl, 1, false);
 	return (len);
 }
 
@@ -80,18 +80,16 @@ static void	copy_and_or(t_cmdl *cmdl, size_t cmd, size_t start)
 	size_t	and_or;
 
 	len = 0;
-	quote = check_quote(0, cmdl->input[start]);
+	quote = 0;
 	and_or = check_and_or(cmdl->input, start);
 	while (quote > 0 || (and_or == 0 && cmdl->input[start + len] != '\0'))
 	{
+		quote = check_quote(quote, cmdl->input[start + len]);
 		cmdl->cmd[cmd].line[len] = cmdl->input[start + len];
 		len++;
-		quote = check_quote(quote, cmdl->input[start + len]);
 		and_or = check_and_or(cmdl->input, start + len);
 	}
 	cmdl->cmd[cmd].line[len] = '\0';
-	cmdl->cmd[cmd].line = split_env_var(cmdl, cmdl->cmd[cmd].line);
-	cmdl->cmd[cmd].line = remove_space(cmdl, cmdl->cmd[cmd].line);
 }
 
 /* SPLITS COMMAND LINE INTO COMMANDS */
@@ -115,6 +113,8 @@ void	parse_cmdl(t_cmdl *cmdl)
 		}
 		len = len_and_or(cmdl, cmd, start);
 		copy_and_or(cmdl, cmd, start);
+		split_env_var(cmdl, &cmdl->cmd[cmd]);
+		cmdl->cmd[cmd].line = remove_space(cmdl, cmdl->cmd[cmd].line);
 		start += len;
 		cmd++;
 	}
